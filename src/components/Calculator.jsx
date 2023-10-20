@@ -1,13 +1,28 @@
+import React, { useState } from 'react';
+import calculate from '../logic/calculate';
 import Calculations from './Calculations';
 import Keys from './Keys';
 
-const Calculator = () => (
-  <div className="calculator">
-    <Calculations />
-    <div className="keys">
-      <Keys />
+const Calculator = () => {
+  const [data, setData] = useState({
+    total: null,
+    next: null,
+    operation: null,
+  });
+
+  const handleClick = (buttonName) => {
+    const result = calculate(data, buttonName);
+    setData({ ...data, ...result });
+  };
+  const res = data.next || data.total || '0';
+  return (
+    <div className="calculator">
+      <Calculations res={res} />
+      <div className="keys">
+        <Keys handleButtonClick={handleClick} />
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default Calculator;
